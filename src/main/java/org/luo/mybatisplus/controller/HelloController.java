@@ -17,7 +17,7 @@ public class HelloController {
 
     private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping("/hello")
+    @GetMapping("/frontHello")
     public Map index(@RequestParam(value = "name", defaultValue = "World") String name) {
         String s = String.format(template, name);
 
