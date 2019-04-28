@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@ApiModel
+@ApiModel("用户登陆参数")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)

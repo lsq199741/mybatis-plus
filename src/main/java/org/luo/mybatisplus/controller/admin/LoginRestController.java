@@ -6,6 +6,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.luo.mybatisplus.model.entity.User;
 import org.luo.mybatisplus.model.param.LoginParam;
 import org.luo.mybatisplus.service.IUserService;
@@ -15,17 +19,16 @@ import org.springframework.web.bind.annotation.*;
 import sun.security.provider.MD5;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 
-@Api(value="/admin", tags="登陆模块")
+@Api(value = "/admin", tags = "管理员登陆模块")
 @Slf4j
 @Validated
 @RestController
 @RequestMapping("/admin")
-public class LoginController {
+public class LoginRestController {
 
     @Resource
     private IUserService userService;
@@ -36,17 +39,30 @@ public class LoginController {
         Map<String, Object> rMap = new HashMap<>();
         rMap.put("r", 1);
 
-        QueryWrapper wrapper = new QueryWrapper<>();
-        wrapper.eq("account", loginParam.getAccount());
-        wrapper.eq("password", MD5Utils.getMd5(loginParam.getPassword()));
-        User user = userService.getOne(wrapper);
-        if (user != null) {
-            rMap.put("user",user);
-        }else {
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(loginParam.getAccount(), loginParam.getPassword());
+
+        try {
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            token.clear();
             rMap.put("r",0);
-            rMap.put("user",null);
+            return rMap;
         }
 
+
+
+
+//        QueryWrapper wrapper = new QueryWrapper<>();
+//        wrapper.eq("account", loginParam.getAccount());
+//        wrapper.eq("password", MD5Utils.getMd5(loginParam.getPassword()));
+//        User user = userService.getOne(wrapper);
+//        if (user != null) {
+//            rMap.put("user", user);
+//        } else {
+//            rMap.put("r", 0);
+//            rMap.put("user", null);
+//        }
         return rMap;
     }
 

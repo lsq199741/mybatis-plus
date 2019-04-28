@@ -13,4 +13,6 @@ import org.luo.mybatisplus.model.entity.User;
  */
 public interface IUserService extends IService<User> {
 
+    User findUserByUsername(String username);
+
 }

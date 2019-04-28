@@ -52,6 +52,18 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- shiro -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring-boot-web-starter</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
         <!--采用log4j-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -123,8 +135,6 @@
             <version>1.2.31</version>
         </dependency>
 
-
-
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -156,11 +166,14 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>1.9.2</version>
         </dependency>
+
+
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>2.3.1</version>
         </dependency>
+
 
 
     </dependencies>
