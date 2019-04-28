@@ -1,7 +1,7 @@
 package org.luo.mybatisplus.mapper;
 
-import org.luo.mybatisplus.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.luo.mybatisplus.model.entity.User;
 
 /**
  * <p>

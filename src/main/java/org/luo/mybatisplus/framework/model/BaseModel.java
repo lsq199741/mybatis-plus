@@ -1,0 +1,15 @@
+package org.luo.mybatisplus.framework.model;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.luo.mybatisplus.framework.model.convert.Convert;
+
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+public class BaseModel extends Convert {
+
+    protected Integer id;
+
+}

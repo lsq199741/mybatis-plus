@@ -1,7 +1,7 @@
 package org.luo.mybatisplus.service;
 
-import org.luo.mybatisplus.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.luo.mybatisplus.model.entity.User;
 
 /**
  * <p>

@@ -1,7 +1,7 @@
 package org.luo.mybatisplus.service.impl;
 
-import org.luo.mybatisplus.entity.User;
 import org.luo.mybatisplus.mapper.UserMapper;
+import org.luo.mybatisplus.model.entity.User;
 import org.luo.mybatisplus.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

@@ -63,7 +63,7 @@ public class SuperGenerator {
         return new PackageConfig()
                 .setParent("org.luo.mybatisplus")
                 .setController("controller")
-                .setEntity("model.entity")
+                .setEntity("model.model")
                 .setMapper("mapper")
                 .setService("service")
                 .setServiceImpl("service.impl");
