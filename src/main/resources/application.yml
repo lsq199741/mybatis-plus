@@ -1,7 +1,7 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/springboot?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true
+    url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: Lsq123!@#
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -49,7 +49,7 @@ spring:
 mybatis-plus:
   # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名
   mapper-locations: classpath*:mybatis/*.xml
-  type-aliases-package: org.luo.mybatisplus.model
+  type-aliases-package: org.luo.mybatisplus.model.entity
   # 该配置请和 typeAliasesPackage 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
   type-aliases-super-type: java.lang.Object
   global-config:
@@ -73,4 +73,4 @@ mybatis-plus:
     default-fetch-size: 100
 logging:
   level:
-    root: info
+    root: debug

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.luo.mybatisplus.model.dto.LoginDTO;
 import org.luo.mybatisplus.model.entity.User;
 import org.luo.mybatisplus.service.IUserService;
@@ -42,6 +43,7 @@ public class UserRestController {
             @ApiImplicitParam(name = "id",value = "用户ID",paramType = "query")
     })
     @GetMapping("/get")
+    @RequiresPermissions("system")
     public Map get(@RequestParam(value = "id", required = false) Integer id) {
         Map rMap = new HashMap();
         User user = userService.getById(id);

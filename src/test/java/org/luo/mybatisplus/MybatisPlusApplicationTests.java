@@ -12,7 +12,7 @@ public class MybatisPlusApplicationTests {
 
     @Test
     public void contextLoads() {
-        System.out.println(MD5Utils.getMd5("123456"));
+        System.out.println(MD5Utils.getMd5Simple("123456"));
     }
 
 }
