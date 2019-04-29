@@ -6,10 +6,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.luo.mybatisplus.model.entity.User;
 import org.luo.mybatisplus.model.param.LoginParam;
 import org.luo.mybatisplus.service.IUserService;
@@ -39,30 +35,28 @@ public class LoginRestController {
         Map<String, Object> rMap = new HashMap<>();
         rMap.put("r", 1);
 
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(loginParam.getAccount(), loginParam.getPassword());
-
-        try {
-            subject.login(token);
-        } catch (AuthenticationException e) {
-            token.clear();
-            rMap.put("r",0);
-            return rMap;
-        }
-
-
-
-
-//        QueryWrapper wrapper = new QueryWrapper<>();
-//        wrapper.eq("account", loginParam.getAccount());
-//        wrapper.eq("password", MD5Utils.getMd5(loginParam.getPassword()));
-//        User user = userService.getOne(wrapper);
-//        if (user != null) {
-//            rMap.put("user", user);
-//        } else {
-//            rMap.put("r", 0);
-//            rMap.put("user", null);
+//        Subject subject = SecurityUtils.getSubject();
+//        UsernamePasswordToken token = new UsernamePasswordToken(loginParam.getAccount(), loginParam.getPassword());
+//
+//        try {
+//            subject.login(token);
+//        } catch (AuthenticationException e) {
+//            token.clear();
+//            rMap.put("r",0);
+//            return rMap;
 //        }
+
+
+        QueryWrapper wrapper = new QueryWrapper<>();
+        wrapper.eq("account", loginParam.getAccount());
+        wrapper.eq("password", MD5Utils.getMd5(loginParam.getPassword()));
+        User user = userService.getOne(wrapper);
+        if (user != null) {
+            rMap.put("user", user);
+        } else {
+            rMap.put("r", 0);
+            rMap.put("user", null);
+        }
         return rMap;
     }
 
