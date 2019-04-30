@@ -1,5 +1,6 @@
 package org.luo.mybatisplus.utils;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.util.DigestUtils;
 
 public class MD5Utils {
@@ -21,5 +22,10 @@ public class MD5Utils {
         String temp = md501.substring(0, 8);
         String md502 = DigestUtils.md5DigestAsHex((temp + md501).getBytes());
         return md502;
+    }
+
+    public static String getPassword(String password,String salt){
+        SimpleHash sh = new SimpleHash("md5", password, salt, 1);
+        return sh.toString();
     }
 }

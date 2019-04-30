@@ -1,4 +1,4 @@
-package org.luo.mybatisplus.controller.admin;
+package org.luo.mybatisplus.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -76,6 +76,16 @@ public abstract class AdminBaseRestController {
                 out.close();
             }
         }
+    }
+
+    public Map<String, Object> success() {
+        Map<String, Object> rMap = new HashMap<>();
+
+        rMap.put("r", 1);
+        rMap.put("data", null);
+        rMap.put("count", 0);
+
+        return rMap;
     }
 
     /*

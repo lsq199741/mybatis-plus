@@ -10,6 +10,7 @@ import org.apache.shiro.util.ByteSource;
 import org.luo.mybatisplus.model.entity.Admin;
 import org.luo.mybatisplus.service.AdminService;
 import org.luo.mybatisplus.service.PermissionService;
+import org.luo.mybatisplus.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private PermissionService permissionService;
 
+    @Autowired
+    private RoleService roleService;
+
     /**
      * 授权
      *
@@ -38,10 +42,14 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.info("doGetAuthorizationInfo");
         Admin admin = (Admin) principals.getPrimaryPrincipal();
+
         List<String> sysPermissions = permissionService.selectPermissionByUserId(admin.getId());
+        List<String> roles = roleService.selectRoleByAdminId(admin.getId());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(sysPermissions);
+        info.addRoles(roles);
+
         log.info("doGetAuthorizationInfo");
         return info;
     }

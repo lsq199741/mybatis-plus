@@ -3,6 +3,8 @@ package org.luo.mybatisplus.service;
 import org.luo.mybatisplus.model.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色表 服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RoleService extends IService<Role> {
 
+    List<String> selectRoleByAdminId(Integer adminId);
 }
