@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.luo.mybatisplus.mapper.PermissionMapper">
+
+    <select id="selectPermissionByUserId" parameterType="integer" resultType="string">
+        select distinct sp.permission from permission sp
+        inner join role_permission srp on sp.id=srp.permission_id
+        inner join admin_role sur on sur.role_id=srp.role_id
+        where sur.admin_id=#{parentId}
+    </select>
+
+</mapper>

@@ -17,16 +17,9 @@ public class LoginDTO {
     @ApiModelProperty(notes = "主键")
     private Integer id;
 
-    @ApiModelProperty(notes = "用户名")
-    private String username;
+    @ApiModelProperty(notes = "昵称")
+    private String nickname;
 
     @ApiModelProperty(notes = "账号")
-    private String account;
-
-    @ApiModelProperty(notes = "角色")
-    private String role;
-
-    @ApiModelProperty(notes = "创建时间")
-    private Date ctime;
-
+    private String username;
 }

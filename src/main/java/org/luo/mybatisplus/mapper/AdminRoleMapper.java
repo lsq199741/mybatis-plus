@@ -1,6 +1,6 @@
 package org.luo.mybatisplus.mapper;
 
-import org.luo.mybatisplus.model.entity.SysRole;
+import org.luo.mybatisplus.model.entity.AdminRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author shuqiang
- * @since 2019-04-29
+ * @since 2019-04-30
  */
-public interface SysRoleMapper extends BaseMapper<SysRole> {
+public interface AdminRoleMapper extends BaseMapper<AdminRole> {
 
 }

@@ -1,6 +1,6 @@
 package org.luo.mybatisplus.service;
 
-import org.luo.mybatisplus.model.entity.SysRolePermission;
+import org.luo.mybatisplus.model.entity.AdminRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author shuqiang
- * @since 2019-04-29
+ * @since 2019-04-30
  */
-public interface SysRolePermissionService extends IService<SysRolePermission> {
+public interface AdminRoleService extends IService<AdminRole> {
 
 }

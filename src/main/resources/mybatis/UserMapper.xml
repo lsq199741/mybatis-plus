@@ -5,7 +5,7 @@
 
     <select id="findUserByUsername" resultType="org.luo.mybatisplus.model.entity.User">
         SELECT
-            id,username,account,password,role,ctime
+            id,name,username,password,role,ctime
         FROM
             user
         WHERE account=#{username}

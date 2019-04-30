@@ -7,33 +7,37 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.luo.mybatisplus.framework.model.convert.Convert;
 
 /**
  * <p>
- * 
+ * 角色许可表
  * </p>
  *
  * @author shuqiang
- * @since 2019-04-29
+ * @since 2019-04-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysUser extends Convert {
+public class RolePermission extends Model<RolePermission> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private Long userId;
+    /**
+     * 角色id
+     */
+    @TableId(value = "role_id", type = IdType.AUTO)
+    private Integer roleId;
 
-    private String userName;
+    /**
+     * 许可id
+     */
+    private Integer permissionId;
 
-    private String fullName;
 
-    private String password;
-
-    private String salt;
-
+    @Override
+    protected Serializable pkVal() {
+        return this.roleId;
+    }
 
 }

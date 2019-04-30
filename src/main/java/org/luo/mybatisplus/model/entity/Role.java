@@ -7,26 +7,42 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.luo.mybatisplus.framework.model.convert.Convert;
 
 /**
  * <p>
- * 
+ * 角色表
  * </p>
  *
  * @author shuqiang
- * @since 2019-04-29
+ * @since 2019-04-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysRole extends Convert {
+public class Role extends Model<Role> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "role_id", type = IdType.AUTO)
-    private Long roleId;
+    /**
+     * 角色编号
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
-    private String roleName;
+    /**
+     * 角色名称
+     */
+    private String name;
+
+    /**
+     * 角色名称
+     */
+    private String title;
+
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 
 }

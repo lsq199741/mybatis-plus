@@ -1,6 +1,7 @@
 package org.luo.mybatisplus.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -11,32 +12,32 @@ import org.luo.mybatisplus.framework.model.convert.Convert;
 
 /**
  * <p>
- * 用户表
+ * 管理员用户表
  * </p>
  *
  * @author shuqiang
- * @since 2019-04-26
+ * @since 2019-04-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class User extends Convert {
+public class Admin extends Convert {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 编号
+     * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 用户名
+     * 昵称
      */
-    private String name;
+    private String nickname;
 
     /**
-     * 账号
+     * 用户名
      */
     private String username;
 
@@ -46,14 +47,19 @@ public class User extends Convert {
     private String password;
 
     /**
-     * 角色
+     * 密码盐
      */
-    private String role;
+    private String salt;
+
+    /**
+     * 创建管理员编号
+     */
+    private Integer createAdmin;
 
     /**
      * 创建时间
      */
-    private LocalDateTime ctime;
+    private LocalDateTime createTime;
 
 
 }

@@ -7,7 +7,6 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.luo.mybatisplus.framework.model.convert.Convert;
 
 /**
  * <p>
@@ -15,26 +14,50 @@ import org.luo.mybatisplus.framework.model.convert.Convert;
  * </p>
  *
  * @author shuqiang
- * @since 2019-04-29
+ * @since 2019-04-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysPermission extends Convert {
+public class Permission extends Model<Permission> {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
-    private Long parentId;
+    /**
+     * 父id
+     */
+    private Integer parentId;
 
-    private String resName;
+    /**
+     * 名称
+     */
+    private String name;
 
-    private String resType;
+    /**
+     * 类型
+     */
+    private String type;
 
+    /**
+     * 许可名称
+     */
     private String permission;
 
+    /**
+     * 接口url
+     */
     private String url;
+
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 
 }

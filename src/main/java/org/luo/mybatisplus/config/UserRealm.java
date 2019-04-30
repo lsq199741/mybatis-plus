@@ -7,13 +7,10 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.luo.mybatisplus.model.entity.SysUser;
-import org.luo.mybatisplus.service.SysPermissionService;
-import org.luo.mybatisplus.service.SysUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.luo.mybatisplus.model.entity.Admin;
+import org.luo.mybatisplus.service.AdminService;
+import org.luo.mybatisplus.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -26,10 +23,10 @@ import java.util.List;
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired
-    private SysUserService sysUserService;
+    private AdminService adminService;
 
     @Autowired
-    private SysPermissionService sysPermissionService;
+    private PermissionService permissionService;
 
     /**
      * 授权
@@ -40,8 +37,8 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.info("doGetAuthorizationInfo");
-        SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
-        List<String> sysPermissions = sysPermissionService.selectPermissionByUserId(sysUser.getUserId());
+        Admin admin = (Admin) principals.getPrimaryPrincipal();
+        List<String> sysPermissions = permissionService.selectPermissionByUserId(admin.getId());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(sysPermissions);
@@ -59,11 +56,11 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        SysUser sysUser = sysUserService.findByUserName(token.getUsername());
-        if (sysUser == null) {
+        Admin admin = adminService.findByUserName(token.getUsername());
+        if (admin == null) {
             return null;
         }
         log.info("doGetAuthenticationInfo");
-        return new SimpleAuthenticationInfo(sysUser, sysUser.getPassword().toCharArray(), ByteSource.Util.bytes(sysUser.getSalt()), getName());
+        return new SimpleAuthenticationInfo(admin, admin.getPassword().toCharArray(), ByteSource.Util.bytes(admin.getSalt()), getName());
     }
 }
