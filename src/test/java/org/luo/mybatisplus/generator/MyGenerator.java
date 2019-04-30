@@ -24,7 +24,7 @@ public class MyGenerator {
         // 接口是否以I开头
         boolean serviceNameStartWithI = false;
         // 对应表
-        String[] tableName = {"sys_user","sys_user_role","sys_role","sys_role_permission","sys_permission"};
+        String[] tableName = {"admin","admin_role","role","role_permission","permission"};
 
         String dbUrl = "jdbc:mysql://localhost:3306/springboot?useSSL=false&useUnicode=true&characterEncoding=UTF8&allowPublicKeyRetrieval=true&serverTimezone=GMT";
         String dbUserName = "root";
