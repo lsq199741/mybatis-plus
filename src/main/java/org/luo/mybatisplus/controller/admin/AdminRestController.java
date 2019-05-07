@@ -15,6 +15,7 @@ import org.luo.mybatisplus.model.dto.AdminInfoDTO;
 import org.luo.mybatisplus.model.entity.Admin;
 import org.luo.mybatisplus.model.entity.Role;
 import org.luo.mybatisplus.model.param.AdminAddParam;
+import org.luo.mybatisplus.model.param.AdminResetPasswordParam;
 import org.luo.mybatisplus.model.param.AdminUpdateParam;
 import org.luo.mybatisplus.service.AdminRoleService;
 import org.luo.mybatisplus.service.AdminService;
@@ -213,20 +214,30 @@ public class AdminRestController extends AdminBaseRestController {
         }
     }
 
-
-    /*
-     * @Author shuqiang
-     * @Desc 修改密码
-     * @Date 2019-04-30 22:16
-     */
-
-
-
     /*
      * @Author shuqiang
      * @Desc 重置密码
      * @Date 2019-04-30 22:16
      */
+    @ApiOperation("管理员重置密码")
+    @RequiresPermissions("resetPassword")
+    @PostMapping("/resetPassword")
+    public Map resetPassword(@RequestBody @Validated AdminResetPasswordParam adminResetPasswordParam) {
+
+        Admin reset = adminService.getById(adminResetPasswordParam.getId());
+        if (reset != null) {
+            String salt = adminResetPasswordParam.getSalt();
+            String password = MD5Utils.getPassword("123456", salt);
+            reset.setPassword(password);
+            reset.setSalt(salt);
+            boolean r = adminService.updateById(reset);
+            if (!r)
+                return error("重置密码失败，请重试");
+            else
+                return success();
+        } else return error("管理员不存在");
+
+    }
 
 
 }

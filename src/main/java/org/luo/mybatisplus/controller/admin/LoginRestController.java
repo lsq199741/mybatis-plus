@@ -15,8 +15,12 @@ import org.apache.shiro.subject.Subject;
 import org.luo.mybatisplus.controller.AdminBaseRestController;
 import org.luo.mybatisplus.model.dto.LoginDTO;
 import org.luo.mybatisplus.model.entity.Admin;
+import org.luo.mybatisplus.model.param.AdminUpdatePasswordParam;
 import org.luo.mybatisplus.model.param.LoginParam;
+import org.luo.mybatisplus.service.AdminService;
 import org.luo.mybatisplus.service.IUserService;
+import org.luo.mybatisplus.utils.MD5Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +36,8 @@ import java.util.Map;
 @RequestMapping("/adminLogin")
 public class LoginRestController extends AdminBaseRestController {
 
-    @Resource
-    private IUserService userService;
+    @Autowired
+    private AdminService adminService;
 
     @ApiOperation("登陆")
     @PostMapping(value = "/login")
@@ -80,11 +84,35 @@ public class LoginRestController extends AdminBaseRestController {
 
         Session session = admin.getSession();
 
-        Admin admin1= (Admin) session.getAttribute("admin");
+        Admin admin1 = (Admin) session.getAttribute("admin");
 
         admin.logout();
 
         return rMap;
+    }
+
+
+    @RequiresUser
+    @ApiOperation("修改密码")
+    @PostMapping(value = "/updatePassword")
+    public Map updatePassword(@RequestBody @Validated AdminUpdatePasswordParam adminUpdatePasswordParam) {
+        Map<String, Object> rMap = new HashMap<>();
+        rMap.put("r", 1);
+        Subject subject = SecurityUtils.getSubject();
+
+        Admin admin = (Admin) subject.getPrincipal();
+
+        String oldPassword = MD5Utils.getPassword(adminUpdatePasswordParam.getOldPassword(), admin.getSalt());
+        String newPassword = MD5Utils.getPassword(adminUpdatePasswordParam.getNewPassword(), admin.getSalt());
+
+        if (oldPassword.equals(admin.getPassword())) {
+            if (!oldPassword.equals(newPassword)) {
+                admin.setPassword(newPassword);
+                boolean r = adminService.updateById(admin);
+                if (!r) return error("修改失败，请重试！");
+                else return success();
+            } else return error("新密码不能与旧密码相同！");
+        } else return error("密码有误，请重新输入！");
     }
 
 
