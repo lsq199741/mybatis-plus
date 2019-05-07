@@ -15,6 +15,7 @@ import org.luo.mybatisplus.model.dto.AdminInfoDTO;
 import org.luo.mybatisplus.model.entity.Admin;
 import org.luo.mybatisplus.model.entity.Role;
 import org.luo.mybatisplus.model.param.AdminAddParam;
+import org.luo.mybatisplus.model.param.AdminUpdateParam;
 import org.luo.mybatisplus.service.AdminRoleService;
 import org.luo.mybatisplus.service.AdminService;
 import org.luo.mybatisplus.service.RoleService;
@@ -31,6 +32,8 @@ import java.util.Map;
 @Api(value = "/admin", tags = "管理员用户管理模块")
 @Slf4j
 @Validated
+@RequiresUser
+@RequiresPermissions("adminManagement")
 @RestController
 @RequestMapping("/admin")
 public class AdminRestController extends AdminBaseRestController {
@@ -50,7 +53,6 @@ public class AdminRestController extends AdminBaseRestController {
      * @Desc 管理员列表
      * @Date 2019-04-30 22:14
      */
-    @RequiresUser
     @RequiresRoles("sys_admin")
     @RequiresPermissions("adminList")
     @ApiOperation("管理员列表")
@@ -80,7 +82,6 @@ public class AdminRestController extends AdminBaseRestController {
      * @Date 2019-04-30 22:14
      */
     @ApiOperation("管理员详情")
-    @RequiresUser
     @RequiresPermissions("adminInfo")
     @GetMapping("/adminInfo/{adminId}")
     public Map adminInfo(@PathVariable Integer adminId) {
@@ -108,7 +109,6 @@ public class AdminRestController extends AdminBaseRestController {
      * @Date 2019-04-30 22:15
      */
     @ApiOperation("管理员添加")
-    @RequiresUser
     @RequiresPermissions("adminAdd")
     @PostMapping("/adminAdd")
     public Map adminAdd(@RequestBody @Validated AdminAddParam adminAddParam) {
@@ -144,8 +144,7 @@ public class AdminRestController extends AdminBaseRestController {
      * @Desc 角色列表
      * @Date 2019-04-30 22:15
      */
-    @ApiOperation("获取角色列表")
-    @RequiresUser
+    @ApiOperation("获取管理员角色列表")
     @RequiresPermissions("roleList")
     @GetMapping("/roleList")
     public Map roleList() {
@@ -157,15 +156,62 @@ public class AdminRestController extends AdminBaseRestController {
 
     /*
      * @Author shuqiang
+     * @Desc
+     * @Date 2019-05-07 15:24
+     */
+
+    /*
+     * @Author shuqiang
      * @Desc 管理员修改
      * @Date 2019-04-30 22:15
      */
+    @ApiOperation("管理员基本信息修改")
+    @RequiresPermissions("adminUpdate")
+    @PostMapping("/adminUpdate")
+    public Map adminUpdate(@RequestBody @Validated AdminUpdateParam adminUpdateParam) {
+
+        Subject subject = SecurityUtils.getSubject();
+
+        Admin admin = (Admin) subject.getPrincipal();
+        admin.getId();
+
+        Admin isRepeat = adminService.getById(adminUpdateParam.getId());
+
+        if (isRepeat != null) {
+            isRepeat.setNickname(adminUpdateParam.getNickname());
+            boolean r = adminService.updateById(isRepeat);
+            if (!r) {
+                return error("修改失败，请重试");
+            } else {
+                return success();
+            }
+        } else {
+            return error("管理员不存在！");
+        }
+    }
 
     /*
      * @Author shuqiang
      * @Desc 管理员删除
      * @Date 2019-04-30 22:16
      */
+    @ApiOperation("管理员删除")
+    @RequiresPermissions("adminDelete")
+    @PostMapping("/adminDelete")
+    public Map adminDelete(Integer id) {
+        Admin del = adminService.getById(id);
+
+        if (del != null) {
+            boolean r = adminService.removeById(id);
+            if (!r) {
+                return error("删除失败，请重试");
+            } else {
+                return success();
+            }
+        } else {
+            return error("管理员不存在！");
+        }
+    }
 
 
     /*
@@ -173,6 +219,7 @@ public class AdminRestController extends AdminBaseRestController {
      * @Desc 修改密码
      * @Date 2019-04-30 22:16
      */
+
 
 
     /*
