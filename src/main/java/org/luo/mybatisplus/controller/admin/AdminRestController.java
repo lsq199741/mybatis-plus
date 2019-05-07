@@ -144,6 +144,16 @@ public class AdminRestController extends AdminBaseRestController {
      * @Desc 角色列表
      * @Date 2019-04-30 22:15
      */
+    @ApiOperation("获取角色列表")
+    @RequiresUser
+    @RequiresPermissions("roleList")
+    @GetMapping("/roleList")
+    public Map roleList() {
+        List<Role> data = roleService.list();
+        Integer count = roleService.count();
+
+        return success(data, count);
+    }
 
     /*
      * @Author shuqiang
