@@ -11,6 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.luo.mybatisplus.controller.AdminBaseRestController;
 import org.luo.mybatisplus.model.entity.Permission;
 import org.luo.mybatisplus.model.param.PermissionAddParam;
+import org.luo.mybatisplus.model.param.PermissionUpdateParam;
 import org.luo.mybatisplus.service.PermissionService;
 import org.luo.mybatisplus.service.RolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +58,7 @@ public class PermissionRestController extends AdminBaseRestController {
     public Map permissionAdd(@RequestBody @Validated PermissionAddParam permissionAddParam) {
         QueryWrapper wrapper = new QueryWrapper();
         String permission = permissionAddParam.getPermission();
-
         wrapper.eq("permission", permission);
-
         Permission exists = permissionService.getOne(wrapper);
 
         if (exists == null) {
@@ -68,10 +67,47 @@ public class PermissionRestController extends AdminBaseRestController {
                 return error("新增失败，请重试");
             else
                 return success();
-
         } else {
             return error("该许可名已存在");
         }
-
     }
+
+    @ApiOperation("许可修改")
+    @RequiresRoles("sys_admin")
+    @PostMapping("/permissionUpdate")
+    public Map permissionUpdate(@RequestBody @Validated PermissionUpdateParam permissionUpdateParam) {
+        Permission exists = permissionService.getById(permissionUpdateParam.getId());
+        if (exists != null) {
+            boolean r = permissionService.updateById(permissionUpdateParam.convert(Permission.class));
+            if (!r) return error("修改失败，请重试");
+        } else {
+            return error("该许可不存在！");
+        }
+        return success();
+    }
+
+    @ApiOperation("许可删除")
+    @RequiresRoles("sys_admin")
+    @PostMapping("/permissionDelete")
+    public Map permissionDelete(@RequestParam Integer id) {
+        Permission exists = permissionService.getById(id);
+        if (exists != null) {
+            boolean r = permissionService.removeById(id);
+            if (!r) return error("许可删除失败，请重试");
+        } else {
+            return error("该许可不存在！");
+        }
+        return success();
+    }
+
+    @ApiOperation("许可详情")
+    @RequiresRoles("sys_admin")
+    @GetMapping("/permissionInfo/{id}")
+    public Map permissionInfo(@PathVariable Integer id) {
+        Permission data = permissionService.getById(id);
+        if (data == null) return error("该许可不存在");
+        return success(data);
+    }
+
+
 }
