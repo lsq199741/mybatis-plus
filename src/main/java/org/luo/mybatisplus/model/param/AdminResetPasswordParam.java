@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @ApiModel("管理员重置密码参数")
@@ -21,6 +22,6 @@ public class AdminResetPasswordParam {
     private Integer id;
 
     @ApiModelProperty("管理员密码盐值")
-    @NotNull(message = "管理员密码盐值不能为空")
+    @NotBlank(message = "管理员密码盐值不能为空")
     private String salt;
 }

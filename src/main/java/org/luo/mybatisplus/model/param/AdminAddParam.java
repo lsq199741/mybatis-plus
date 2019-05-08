@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @ApiModel("管理员添加参数")
 @Data
 @NoArgsConstructor
