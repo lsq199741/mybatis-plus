@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 30/04/2019 17:24:27
+ Date: 10/05/2019 16:51:23
 */
 
 SET NAMES utf8mb4;
@@ -30,15 +30,16 @@ CREATE TABLE `admin` (
   `create_admin` int(10) DEFAULT '0' COMMENT '创建管理员编号',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='管理员用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='管理员用户表';
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
 BEGIN;
-INSERT INTO `admin` VALUES (1, '骆书强', 'luoshuqiang', 'eeafb716f93fa090d7716749a6eefa72', '1', 0, '2019-04-30 13:23:17');
+INSERT INTO `admin` VALUES (1, '骆书强', 'luoshuqiang', '5d9828eb0fb4064df20bff5aa9388760', '1', 0, '2019-04-30 13:23:17');
 INSERT INTO `admin` VALUES (2, '周凯旋', 'zhoukaixuan', 'eeafb716f93fa090d7716749a6eefa72', '1', 1, '2019-04-30 13:26:34');
 INSERT INTO `admin` VALUES (3, '张苗苗', 'zmm', 'eeafb716f93fa090d7716749a6eefa72', '1', 1, '2019-04-30 13:27:04');
+INSERT INTO `admin` VALUES (5, '骆晨', 'luochen', '6b4308e762489d86fd98151fbb476d2e', 'chen', 1, '2019-05-07 15:54:09');
 COMMIT;
 
 -- ----------------------------
@@ -72,15 +73,22 @@ CREATE TABLE `permission` (
   `permission` varchar(32) DEFAULT NULL COMMENT '许可名称',
   `url` varchar(100) DEFAULT NULL COMMENT '接口url',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='许可表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='许可表';
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `permission` VALUES (1, NULL, '系统管理', 'menu', 'system', '');
-INSERT INTO `permission` VALUES (2, 1, '用户管理', 'menu', 'systemUserList', '/admin/UserList');
-INSERT INTO `permission` VALUES (3, 1, '角色管理', 'menu', 'systemRoleList', '/admin/RoleList');
+INSERT INTO `permission` VALUES (1, 0, '系统管理', 'menu', 'system', '');
+INSERT INTO `permission` VALUES (2, 1, '系统管理员管理', 'menu', 'adminManagement', '/admn/adminManagement');
+INSERT INTO `permission` VALUES (3, 2, '管理员用户列表', 'api', 'adminList', '/admin/UserList');
+INSERT INTO `permission` VALUES (4, 2, '管理员用户详情', 'api', 'adminInfo', '/admin/adminInfo');
+INSERT INTO `permission` VALUES (5, 2, '管理员用户修改', 'api', 'adminUpdate', '/admin/adminUpdate');
+INSERT INTO `permission` VALUES (6, 2, '管理员用户添加', 'api', 'adminAdd', '/admin/adminAdd');
+INSERT INTO `permission` VALUES (7, 2, '管理员用户删除', 'api', 'adminDelete', '/admin/adminDel');
+INSERT INTO `permission` VALUES (8, 2, '管理员角色列表', 'api', 'roleList', '/admin/roleList');
+INSERT INTO `permission` VALUES (9, 2, '管理员修改密码', 'api', 'updatePassword', '/admin/updatePassword');
+INSERT INTO `permission` VALUES (10, 2, '管理员重置密码', 'api', 'resetPassword', '/admin/resetPassword');
 COMMIT;
 
 -- ----------------------------
@@ -90,7 +98,7 @@ DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '角色编号',
   `name` varchar(32) NOT NULL COMMENT '角色名称',
-  `title` varchar(32) NOT NULL COMMENT '角色名称',
+  `title` varchar(32) NOT NULL COMMENT '角色说明',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
@@ -110,6 +118,7 @@ DROP TABLE IF EXISTS `role_permission`;
 CREATE TABLE `role_permission` (
   `role_id` int(10) NOT NULL COMMENT '角色id',
   `permission_id` int(10) NOT NULL COMMENT '许可id',
+  `isenable` int(1) NOT NULL DEFAULT '0' COMMENT '是否启用',
   PRIMARY KEY (`role_id`,`permission_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色许可表';
 
@@ -117,11 +126,26 @@ CREATE TABLE `role_permission` (
 -- Records of role_permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `role_permission` VALUES (1, 1);
-INSERT INTO `role_permission` VALUES (1, 2);
-INSERT INTO `role_permission` VALUES (1, 3);
-INSERT INTO `role_permission` VALUES (2, 2);
-INSERT INTO `role_permission` VALUES (2, 3);
+INSERT INTO `role_permission` VALUES (1, 1, 1);
+INSERT INTO `role_permission` VALUES (1, 2, 1);
+INSERT INTO `role_permission` VALUES (1, 3, 1);
+INSERT INTO `role_permission` VALUES (1, 4, 1);
+INSERT INTO `role_permission` VALUES (1, 5, 1);
+INSERT INTO `role_permission` VALUES (1, 6, 1);
+INSERT INTO `role_permission` VALUES (1, 7, 1);
+INSERT INTO `role_permission` VALUES (1, 8, 1);
+INSERT INTO `role_permission` VALUES (1, 9, 1);
+INSERT INTO `role_permission` VALUES (1, 10, 1);
+INSERT INTO `role_permission` VALUES (2, 1, 1);
+INSERT INTO `role_permission` VALUES (2, 2, 1);
+INSERT INTO `role_permission` VALUES (2, 3, 1);
+INSERT INTO `role_permission` VALUES (2, 4, 1);
+INSERT INTO `role_permission` VALUES (2, 5, 1);
+INSERT INTO `role_permission` VALUES (2, 6, 1);
+INSERT INTO `role_permission` VALUES (2, 7, 1);
+INSERT INTO `role_permission` VALUES (2, 8, 1);
+INSERT INTO `role_permission` VALUES (2, 9, 1);
+INSERT INTO `role_permission` VALUES (2, 10, 1);
 COMMIT;
 
 -- ----------------------------
