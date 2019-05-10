@@ -1,5 +1,9 @@
 package org.luo.mybatisplus.mapper;
 
+import io.swagger.annotations.Api;
+import org.luo.mybatisplus.model.dto.ApiDTO;
+import org.luo.mybatisplus.model.dto.SecondaryMenuDTO;
+import org.luo.mybatisplus.model.dto.StairMenuDTO;
 import org.luo.mybatisplus.model.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -17,4 +21,9 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 
     List<String> selectPermissionByUserId(Integer parentId);
 
+    List<StairMenuDTO> selectStairMenuByRoleId(Integer roleId);
+
+    List<SecondaryMenuDTO> selectSecondaryMenuByStairId(Integer parentId, Integer roleId);
+
+    List<ApiDTO> selectApiBySecondaryMenuId(Integer parentId, Integer roleId);
 }

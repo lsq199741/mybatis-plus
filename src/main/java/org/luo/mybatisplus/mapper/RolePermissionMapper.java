@@ -1,7 +1,10 @@
 package org.luo.mybatisplus.mapper;
 
+import org.luo.mybatisplus.model.entity.Admin;
 import org.luo.mybatisplus.model.entity.RolePermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RolePermissionMapper extends BaseMapper<RolePermission> {
 
+
+    List<Integer> selectPermissionByRoleId(Integer roleId);
 }

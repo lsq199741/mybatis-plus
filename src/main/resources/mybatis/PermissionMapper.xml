@@ -6,7 +6,28 @@
         select distinct sp.permission from permission sp
         inner join role_permission srp on sp.id=srp.permission_id
         inner join admin_role sur on sur.role_id=srp.role_id
-        where sur.admin_id=#{parentId}
+        where sur.admin_id=#{parentId} and srp.isenable=1
+    </select>
+
+    <!-- 通过角色编号 获取一级菜单 -->
+    <select id="selectStairMenuByRoleId" parameterType="integer" resultType="org.luo.mybatisplus.model.dto.StairMenuDTO">
+        select p.id,p.name,p.permission,p.url,rp.isenable from permission p
+        left join role_permission rp on p.id = rp.permission_id
+        where  p.type='menu' and p.parent_id=0 and rp.role_id=#{roleId}
+    </select>
+
+    <!-- 通过角色编号,一级菜单编号 获取二级菜单编号 -->
+    <select id="selectSecondaryMenuByStairId" resultType="org.luo.mybatisplus.model.dto.SecondaryMenuDTO">
+        select p.id,p.name,p.permission,p.url,rp.isenable from permission p
+        left join role_permission rp on p.id = rp.permission_id
+        where  p.type='menu' and p.parent_id=#{parentId} and rp.role_id=#{roleId}
+    </select>
+
+    <!-- 根据二级菜单编号获取API编号 -->
+    <select id="selectApiBySecondaryMenuId" resultType="org.luo.mybatisplus.model.dto.ApiDTO">
+        select p.id,p.name,p.permission,p.url,rp.isenable from permission p
+        left join role_permission rp on p.id = rp.permission_id
+        where  p.type='api' and p.parent_id=#{parentId} and rp.role_id=#{roleId}
     </select>
 
 </mapper>
